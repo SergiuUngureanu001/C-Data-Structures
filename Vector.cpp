@@ -46,101 +46,18 @@ private:
 
 public:
     class Iterator {
-private:
-    T *ptr;
-
-public:
-    /// Foarte important pentru a putea folosi iteratorii in compozitia altor functii precum sort
-    using iterator_category = std::random_access_iterator_tag;
-    using value_type = T;
-    using difference_type = std::ptrdiff_t;
-    using pointer = T*;
-    using reference = T&;
-
-    explicit Iterator(T *p) : ptr(p) {}
-
-    T& operator*() {
-        return *ptr;
-    }
-    T* operator->() {
-        return ptr;
-    }
-
-    Iterator& operator++() {
-        ++ptr;
-        return *this;
-    }
-    Iterator operator++(int) {
-        Iterator tmp = *this;
-        ++ptr;
-        return tmp;
-    }
-    Iterator& operator--() {
-        --ptr;
-        return *this;
-    }
-    Iterator operator--(int) {
-        Iterator tmp = *this;
-        --ptr;
-        return tmp;
-    }
-
-    Iterator operator+(difference_type n) const {
-        return Iterator(ptr + n);
-    }
-    Iterator operator-(difference_type n) const {
-        return Iterator(ptr - n);
-    }
-    Iterator& operator+=(difference_type n) {
-        ptr += n; return *this;
-    }
-    Iterator& operator-=(difference_type n) {
-        ptr -= n; return *this;
-    }
-
-    T& operator[](difference_type n) const {
-        return ptr[n];
-    }
-
-    bool operator==(const Iterator& other) const {
-        return ptr == other.ptr;
-    }
-    bool operator!=(const Iterator& other) const {
-        return ptr != other.ptr;
-    }
-    bool operator<(const Iterator& other) const {
-        return ptr < other.ptr;
-    }
-    bool operator>(const Iterator& other) const {
-        return ptr > other.ptr;
-    }
-    bool operator<=(const Iterator& other) const {
-        return ptr <= other.ptr;
-    }
-    bool operator>=(const Iterator& other) const {
-        return ptr >= other.ptr;
-    }
-
-    // Distance
-    difference_type operator-(const Iterator& other) const {
-        return ptr - other.ptr;
-    }
-
-    T* get() const { return ptr; }
-};
-
-    class ReverseIterator {
     private:
-        T* ptr;
+        T *ptr;
+
     public:
         /// Foarte important pentru a putea folosi iteratorii in compozitia altor functii precum sort
-        using iterator_category = std::bidirectional_iterator_tag;
+        using iterator_category = std::random_access_iterator_tag;
         using value_type = T;
         using difference_type = std::ptrdiff_t;
         using pointer = T*;
         using reference = T&;
 
-        explicit ReverseIterator(T* p) : ptr(p) {}
+        explicit Iterator(T *p) : ptr(p) {}
 
         T& operator*() {
             return *ptr;
@@ -149,22 +66,149 @@ public:
             return ptr;
         }
 
-        ReverseIterator& operator--() {
+        Iterator& operator++() {
+            ++ptr;
+            return *this;
+        }
+        Iterator operator++(int) {
+            Iterator tmp = *this;
+            ++ptr;
+            return tmp;
+        }
+        Iterator& operator--() {
             --ptr;
+            return *this;
+        }
+        Iterator operator--(int) {
+            Iterator tmp = *this;
+            --ptr;
+            return tmp;
+        }
+
+        Iterator operator+(difference_type n) const {
+            return Iterator(ptr + n);
+        }
+        Iterator operator-(difference_type n) const {
+            return Iterator(ptr - n);
+        }
+        Iterator& operator+=(difference_type n) {
+            ptr += n; return *this;
+        }
+        Iterator& operator-=(difference_type n) {
+            ptr -= n; return *this;
+        }
+
+        T& operator[](difference_type n) const {
+            return ptr[n];
+        }
+
+        bool operator==(const Iterator& other) const {
+            return ptr == other.ptr;
+        }
+        bool operator!=(const Iterator& other) const {
+            return ptr != other.ptr;
+        }
+        bool operator<(const Iterator& other) const {
+            return ptr < other.ptr;
+        }
+        bool operator>(const Iterator& other) const {
+            return ptr > other.ptr;
+        }
+        bool operator<=(const Iterator& other) const {
+            return ptr <= other.ptr;
+        }
+        bool operator>=(const Iterator& other) const {
+            return ptr >= other.ptr;
+        }
+
+        // Distance
+        difference_type operator-(const Iterator& other) const {
+            return ptr - other.ptr;
+        }
+
+        T* get() const { return ptr; }
+    };
+
+    class ReverseIterator {
+    private:
+        T* ptr;
+
+    public:
+        /// Foarte important pentru a putea folosi iteratorii in compozitia altor functii precum sort
+        using iterator_category = std::random_access_iterator_tag;
+        using value_type = T;
+        using difference_type = std::ptrdiff_t;
+        using pointer = T*;
+        using reference = T&;
+
+        explicit ReverseIterator(T* p) : ptr(p) {}
+
+        reference operator*() const {
+            return *ptr;
+        }
+        pointer operator->() const {
+            return ptr;
+        }
+
+        ReverseIterator& operator++() {
+            --ptr;
+            return *this;
+        }
+        ReverseIterator operator++(int) {
+            ReverseIterator tmp = *this;
+            --ptr;
+            return tmp;
+        }
+        ReverseIterator& operator--() {
+            ++ptr;
             return *this;
         }
         ReverseIterator operator--(int) {
             ReverseIterator tmp = *this;
-            --(*this);
+            ++ptr;
             return tmp;
         }
 
-        bool operator!=(const ReverseIterator& other) const {
-            return ptr != other.ptr;
+        ReverseIterator operator+(difference_type n) const {
+            return ReverseIterator(ptr - n);
+        }
+        ReverseIterator operator-(difference_type n) const {
+            return ReverseIterator(ptr + n);
+        }
+        ReverseIterator& operator+=(difference_type n) {
+            ptr -= n;
+            return *this;
+        }
+        ReverseIterator& operator-=(difference_type n) {
+            ptr += n;
+            return *this;
         }
 
         bool operator==(const ReverseIterator& other) const {
             return ptr == other.ptr;
+        }
+        bool operator!=(const ReverseIterator& other) const {
+            return ptr != other.ptr;
+        }
+        bool operator<(const ReverseIterator& other) const {
+            return ptr > other.ptr;
+        }
+        bool operator>(const ReverseIterator& other) const {
+            return ptr < other.ptr;
+        }
+        bool operator<=(const ReverseIterator& other) const {
+            return ptr >= other.ptr;
+        }
+        bool operator>=(const ReverseIterator& other) const {
+            return ptr <= other.ptr;
+        }
+
+        difference_type operator-(const ReverseIterator& other) const {
+            return other.ptr - ptr;
+        }
+
+        reference operator[](difference_type n) const {
+            return *(ptr - n);
         }
     };
 
@@ -192,7 +236,7 @@ public:
 
     Lista(initializer_list<T> init) : cap(0), sz(0), vec(nullptr) {
         reserve(init.size());
-        for(const auto& item : init) {
+        for (const auto& item : init) {
             vec[sz++] = item;
         }
     }
@@ -202,7 +246,7 @@ public:
         for(size_t i = 0; i < other.sz; i++) {
             vec[i] = other.vec[i];
         }
-        sz = other.sz;
+        this->sz = other.sz;
     }
 
     ~Lista() = default;
@@ -226,7 +270,7 @@ public:
 
      void insert_at(Iterator it, const Lista<T>& values) {
         size_t pos = it.get() - vec.get();
-        if(pos > sz) {
+        if(pos > this->sz) {
             throw out_of_range("Iterator out of range");
         }
 
@@ -239,7 +283,7 @@ public:
         }
 
         if(pos < this->sz) {
-            for(size_t i = this->sz; i > pos; i--) {
+            for(size_t i = sz; i > pos; i--) {
                 size_t src = i - 1;
                 size_t dest = src + num_elements;
                 vec[dest] = move(vec[src]);
@@ -406,7 +450,7 @@ int main()
     print(v);
     v.get_end() = 169;
     print(v);
-    for(auto it = v.rbegin(); it != v.rend(); it--) {
+    for(auto it = v.rbegin(); it != v.rend(); it++) {
         cout << *it << " ";
     }
     cout << '\n';
@@ -435,5 +479,7 @@ int main()
     sort(new_list.begin(), new_list.end(), [](int a, int b) -> bool {
          return a > b; });
     print(new_list);
-    cout << *max_element(new_list.begin(), new_list.end());
+    cout << *max_element(new_list.begin(), new_list.end()) << '\n';
+    sort(new_list.rbegin(), new_list.rend());
+    print(new_list);
 }
