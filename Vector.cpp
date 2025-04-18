@@ -221,7 +221,7 @@ public:
         if(this->sz == 0) {
             throw out_of_range("Lista e goala\n");
         }
-        sz--;
+        this->sz--;
     }
 
      void insert_at(Iterator it, const Lista<T>& values) {
@@ -238,8 +238,8 @@ public:
             grow();
         }
 
-        if(pos < sz) {
-            for(size_t i = sz; i > pos; i--) {
+        if(pos < this->sz) {
+            for(size_t i = this->sz; i > pos; i--) {
                 size_t src = i - 1;
                 size_t dest = src + num_elements;
                 vec[dest] = move(vec[src]);
@@ -250,7 +250,7 @@ public:
             vec[pos + i] = values[i];
         }
 
-        sz += num_elements;
+        this->sz += num_elements;
     }
 
     void cleared() {
