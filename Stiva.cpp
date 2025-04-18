@@ -28,7 +28,7 @@ private:
         vector<T> getData() const {
             vector<T> result;
             Node* current = head.get();
-            while (current) {
+            while(current) {
                 result.push_back(current->data);
                 current = current->next.get();
             }
@@ -49,7 +49,7 @@ public:
     ~Stiva() = default;
 
     Stiva(const Stiva<T> &other) : cap(other.cap), sz(0), head(nullptr) {
-        if (!other.head)
+        if(!other.head)
             return;
 
         Stiva<T> temp;
@@ -68,7 +68,7 @@ public:
     }
 
     Stiva& operator=(const Stiva<T> &other) {
-        if (this != &other) {
+        if(this != &other) {
             Stiva<T> temp(other);
             swap(temp.head, this->head);
             swap(temp.cap, this->cap);
