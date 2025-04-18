@@ -20,7 +20,7 @@ private:
 
     void grow(bool ok = false, size_t n = 69) {
         size_t new_cap;
-        if (this->cap == 0) {
+        if(this->cap == 0) {
             new_cap = ok ? n + 1 : 1;
         } else {
             new_cap = ok ? n + 1 : this->cap * 2;
@@ -192,7 +192,7 @@ public:
 
     Lista(initializer_list<T> init) : cap(0), sz(0), vec(nullptr) {
         reserve(init.size());
-        for (const auto& item : init) {
+        for(const auto& item : init) {
             vec[sz++] = item;
         }
     }
