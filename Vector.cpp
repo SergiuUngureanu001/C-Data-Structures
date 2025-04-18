@@ -490,4 +490,6 @@ int main()
     cout << *max_element(new_list.begin(), new_list.end()) << '\n';
     sort(new_list.rbegin(), new_list.rend());
     print(new_list);
+    new_list.assigned(5, 50);
+    print(new_list);
 }
