@@ -143,6 +143,7 @@ template <typename T>
 T Stiva<T>::NMAX = numeric_limits<T>::max();
 
 int main() {
+    /// CODE TESTING
     Stiva<int> v(10);
     v.push(1);
     v.push(2);
