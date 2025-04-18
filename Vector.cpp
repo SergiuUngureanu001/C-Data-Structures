@@ -268,6 +268,14 @@ public:
         this->sz--;
     }
 
+    void assigned(size_t new_cap, const T& val) {
+        reserve(new_cap);
+        for(size_t i = 0; i < new_cap; i++) {
+            vec[i] = val;
+        }
+        this->sz = new_cap;
+    }
+
      void insert_at(Iterator it, const Lista<T>& values) {
         size_t pos = it.get() - vec.get();
         if(pos > this->sz) {
