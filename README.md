@@ -247,3 +247,141 @@ int main() {
 }
 ```
 
+
+## Stiva<T> Stack Container
+
+`Stiva` is a linked-list-based stack template container in C++ offering LIFO operations with dynamic capacity management. It supports push/pop/top operations, copying and assignment, and a helper to batch erase elements.
+
+---
+
+### Table of Contents
+1. [Constructors](#constructors-1)
+2. [Destructor](#destructor-1)
+3. [Copy & Assignment](#copy--assignment)
+4. [Modifiers](#modifiers-1)
+   - [push](#push-1)
+   - [pop](#pop-1)
+   - [eraseAndSave](#eraseandsave)
+5. [Accessors](#accessors-1)
+6. [Helper Structures](#helper-structures)
+   - [Node](#node)
+   - [NodeListHelper](#nodelisthelper)
+7. [Non-member Functions](#non-member-functions-1)
+   - [print](#print-1)
+8. [Example Usage](#example-usage-1)
+
+---
+
+## Constructors
+
+- `Stiva(int n)`
+  - Constructs an empty stack with initial capacity = `n`.
+
+- `Stiva()`
+  - Constructs an empty stack with initial capacity = 1.
+
+---
+
+## Destructor
+
+- `~Stiva()`
+  - Default destructor, automatically releases all nodes.
+
+---
+
+## Copy & Assignment
+
+- `Stiva(const Stiva<T>& other)`
+  - Copy constructor: performs a deep copy of `other` by reversing twice to maintain original order.
+
+- `Stiva& operator=(const Stiva<T>& other)`
+  - Copy assignment: uses the copy-and-swap idiom for exception safety.
+
+---
+
+## Modifiers
+
+### push
+```cpp
+void push(T val);
+```
+Pushes `val` onto the top of the stack. If size equals capacity, doubles capacity (unless at `NMAX/2` threshold, where it prints "Overflow" and exits).
+
+### pop
+```cpp
+void pop();
+```
+Removes the top element. If the stack is empty, prints "Invalid" without throwing.
+
+### eraseAndSave
+```cpp
+NodeListHelper eraseAndSave(int k);
+```
+Pops up to `k` elements from the stack, saving them into a `NodeListHelper` that preserves removal order. Returns the helper containing the removed nodes.
+
+---
+
+## Accessors
+
+### top
+```cpp
+T top() const;
+```
+Returns the top element by value. If the stack is empty, prints "Invalid" and returns `NMAX`.
+
+### get_size
+```cpp
+size_t get_size() const;
+```
+Returns the number of elements in the stack.
+
+### isEmpty
+```cpp
+bool isEmpty() const;
+```
+Returns `true` if the stack is empty.
+
+---
+
+## Helper Structures
+
+### Node
+Internal struct holding `T data` and a `unique_ptr<Node> next` pointer for linked-list chaining.
+
+### NodeListHelper
+Supports batch removal:
+- `add(unique_ptr<Node> node)`: pushes `node` onto its own list (LIFO).
+- `getData()`: returns a `vector<T>` of stored node data in removal order.
+
+---
+
+## Non-member Functions
+
+### print
+```cpp
+friend void print(const Stiva<T>& obj);
+```
+Prints all elements from top to bottom to `std::cout`, separated by spaces.
+
+---
+
+## Example Usage
+```cpp
+#include "stiva.h"
+#include <iostream>
+
+int main() {
+    Stiva<int> s(5);
+    s.push(10);
+    s.push(20);
+    print(s);            // 20 10
+    s.pop();
+    std::cout << s.top(); // 10
+
+    auto saved = s.eraseAndSave(1);
+    for (auto x : saved.getData())
+        std::cout << x << " "; // 10
+
+    return 0;
+}
+```
