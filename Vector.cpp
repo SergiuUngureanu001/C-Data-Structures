@@ -10,6 +10,20 @@
 
 using namespace std;
 
+template<typename T>
+void print_element(const T& elem) {
+    if(typeid(T) == typeid(float) || typeid(T) == typeid(double)) {
+        cout << fixed << setprecision(3) << elem << " ";
+    } else {
+        cout << elem << " ";
+    }
+}
+
+template<typename T1, typename T2>
+void print_element(const pair<T1, T2> &elem) {
+    cout << "(" << elem.first << ", " << elem.second << ") ";
+}
+
 template <typename T>
 class Lista {
 private:
@@ -228,7 +242,7 @@ public:
         if(n > 0) {
             reserve(n);
             for(auto i = 0; i < n; i++) {
-                vec[i] = 0;
+                vec[i] = T();
             }
             this->sz = n;
         }
@@ -337,12 +351,8 @@ public:
     }
 
     friend void print(Lista<T> &mylist) {
-        for(int i = 0; i < mylist.sz; i++) {
-            if(typeid(T) == typeid(float) || typeid(T) == typeid(double)) {
-                cout << fixed << setprecision(3) << mylist.vec[i] << " ";
-            } else {
-                cout << mylist.vec[i] << " ";
-            }
+        for(size_t i = 0; i < mylist.sz; i++) {
+            print_element(mylist.vec[i]);
         }
         cout << '\n';
     }
@@ -492,4 +502,8 @@ int main()
     print(new_list);
     new_list.assigned(5, 50);
     print(new_list);
+    Lista<pair<int, int>> z(10);
+    print(z);
+    z.assigned(5, {6, 9});
+    print(z);
 }
